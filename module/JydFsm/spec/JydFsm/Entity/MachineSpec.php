@@ -2,9 +2,9 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\State;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use JydFsm\Entity\State;
 
 class MachineSpec extends ObjectBehavior
 {
@@ -20,5 +20,32 @@ class MachineSpec extends ObjectBehavior
         $this->addState($state);
 
         $this->hasStates()->shouldReturn(true);
+    }
+
+    function it_must_have_a_current_state(State $state)
+    {
+        $this->addState($state);
+
+        $this->getCurrentState()->shouldNotBeNull();
+
+        $this->addState($state, true);
+
+        $this->getCurrentState()->shouldNotBeNull();
+    }
+
+    function it_can_have_current_state_changed_by_adding_a_new_state_and_setting_it_as_current(State $state)
+    {
+        $this->addState($state);
+
+        $firstKey = $this->getCurrent();
+
+        $this->addState($state, true);
+
+        $this->getCurrent()->shouldNotEqual($firstKey);
+    }
+
+    function it_can_have_current_state_updated_by_invoking_a_transition()
+    {
+
     }
 }

@@ -23,26 +23,33 @@ class Transition
      *
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      *
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\OneToOne(targetEntity="State")
      *
      * @var State
      */
-    protected $target;
+    private $target;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions")
+     *
+     * @var State
+     */
+    private $state;
 
     /**
      * @param State $state
      */
-    public function __construct(State $state)
+    public function __construct(State &$state)
     {
         $this->target = $state;
     }

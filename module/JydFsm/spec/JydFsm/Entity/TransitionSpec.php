@@ -2,10 +2,10 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\State;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use JydFsm\Entity\State;
 
 class TransitionSpec extends ObjectBehavior
 {

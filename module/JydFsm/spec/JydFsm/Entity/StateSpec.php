@@ -2,14 +2,22 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\Machine;
+use JydFsm\Entity\State;
+use JydFsm\Entity\Transition;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use JydFsm\Entity\State;
-use JydFsm\Entity\Transition;
 
 class StateSpec extends ObjectBehavior
 {
+    function let($machine)
+    {
+        $machine->beADoubleOf('JydFsm\Entity\Machine');
+
+        $this->beConstructedWith($machine);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('JydFsm\Entity\State');
@@ -28,7 +36,7 @@ class StateSpec extends ObjectBehavior
         $this->hasInternalStates()->shouldReturn(true);
     }
 
-    function it_can_contain_transition(Transition $transition)
+    function it_can_contain_transitions(Transition $transition)
     {
         $this->hasTransitions()->shouldReturn(false);
 
@@ -39,5 +47,10 @@ class StateSpec extends ObjectBehavior
         $this->addTransition($transition);
 
         $this->hasTransitions()->shouldReturn(true);
+    }
+
+    function it_can_return_the_machine_it_belongs_to($machine)
+    {
+        $this->getMachine()->shouldReturn($machine);
     }
 }

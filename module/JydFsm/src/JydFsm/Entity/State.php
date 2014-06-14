@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Transition;
+use JydFsm\Entity\Machine;
 
 /**
  * Class State
@@ -31,49 +32,57 @@ class State
      *
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      *
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(type="string")
      *
      * $var string
      */
-    protected $description;
+    private $description;
 
     /**
      * @ORM\OneToMany(targetEntity="State", mappedBy="parent")
      *
      * @var ArrayCollection
      **/
-    protected $states;
+    private $states;
 
     /**
      * @ORM\ManyToOne(targetEntity="State", inversedBy="children")
      *
      * @var State
      **/
-    protected $parent;
+    private $parent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Transition")
+     * @ORM\OneToMany(targetEntity="Transition", mappedBy="state")
      *
      * @var ArrayCollection
      */
-    protected $transitions;
+    private $transitions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="states")
+     *
+     * @var Machine
+     */
+    private $machine;
 
     /**
      *
      */
-    public function __construct() {
+    public function __construct($machine) {
         $this->states = new ArrayCollection();
         $this->transitions = new ArrayCollection();
+        $this->machine = $machine;
     }
 
     /**
@@ -106,5 +115,13 @@ class State
     public function addTransition(Transition $transition)
     {
         $this->transitions->add($transition);
+    }
+
+    /**
+     * @return Machine
+     */
+    public function getMachine()
+    {
+        return $this->machine;
     }
 }
