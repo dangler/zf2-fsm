@@ -15,7 +15,7 @@ class StateSpec extends ObjectBehavior
     {
         $machine->beADoubleOf('JydFsm\Entity\Machine');
 
-        $this->beConstructedWith($machine);
+        $this->beConstructedWith($machine, null);
     }
 
     function it_is_initializable()
@@ -49,8 +49,29 @@ class StateSpec extends ObjectBehavior
         $this->hasTransitions()->shouldReturn(true);
     }
 
-    function it_can_return_the_machine_it_belongs_to($machine)
+    function it_must_be_able_return_the_machine_it_belongs_to($machine)
     {
         $this->getMachine()->shouldReturn($machine);
+    }
+
+    function it_can_set_itself_as_current($machine)
+    {
+        $machine->setCurrentState($this)->shouldBeCalled();
+        $this->setSelfAsCurrent();
+    }
+
+    function it_can_find_transition_for_given_transition_name_correctly(Transition $t1, Transition $t2, Transition $t3)
+    {
+        $t1->getName()->willReturn('test_name_1');
+        $t2->getName()->willReturn('test_name_2');
+        $t3->getName()->willReturn('test_name_3');
+
+        $this->addTransition($t1);
+        $this->addTransition($t2);
+        $this->addTransition($t3);
+
+        $this->getTransition('test_name_2')->shouldReturn($t2);
+        $this->getTransition('test_name_1')->shouldNotReturn($t2);
+        $this->getTransition('invalid_name')->shouldThrowException();
     }
 }

@@ -79,7 +79,7 @@ class State
     /**
      *
      */
-    public function __construct($machine) {
+    public function __construct(Machine $machine) {
         $this->states = new ArrayCollection();
         $this->transitions = new ArrayCollection();
         $this->machine = $machine;
@@ -123,5 +123,31 @@ class State
     public function getMachine()
     {
         return $this->machine;
+    }
+
+    /**
+     * Sets the machine's current state to self
+     */
+    public function setSelfAsCurrent()
+    {
+        $this->machine->setCurrentState($this);
+    }
+
+    /**
+     * @param $transitionName
+     * @return Transition
+     * @throws \Exception
+     */
+    public function getTransition($transitionName)
+    {
+        $t = $this->transitions->filter(function($entity) use ($transitionName) {
+             return $entity->getName() == $transitionName;
+        });
+
+        if ($t) {
+            return $t->first();
+        }
+
+        throw new \Exception("Transition with name $transitionName was not found");
     }
 }

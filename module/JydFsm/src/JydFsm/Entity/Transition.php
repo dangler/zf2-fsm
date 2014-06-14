@@ -48,10 +48,20 @@ class Transition
 
     /**
      * @param State $state
+     * @param State $target
      */
-    public function __construct(State &$state)
+    public function __construct(State $state, State $target)
     {
-        $this->target = $state;
+        $this->state = $state;
+        $this->target = $target;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -60,5 +70,21 @@ class Transition
     public function getTarget()
     {
         return $this->target;
+    }
+
+    /**
+     * @return State
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * When executed set the target state as current in the machine
+     */
+    public function execute()
+    {
+        $this->target->setSelfAsCurrent();
     }
 }

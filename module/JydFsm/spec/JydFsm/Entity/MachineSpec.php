@@ -43,9 +43,4 @@ class MachineSpec extends ObjectBehavior
 
         $this->getCurrent()->shouldNotEqual($firstKey);
     }
-
-    function it_can_have_current_state_updated_by_invoking_a_transition()
-    {
-
-    }
 }
