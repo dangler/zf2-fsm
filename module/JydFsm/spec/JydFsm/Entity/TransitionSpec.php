@@ -2,6 +2,7 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\Action;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -30,5 +31,14 @@ class TransitionSpec extends ObjectBehavior
     {
         $target->setSelfAsCurrent()->shouldBeCalled();
         $this->execute();
+    }
+
+    function it_may_have_actions(Action $action)
+    {
+        $this->hasActions()->shouldReturn(false);
+
+        $this->addAction($action);
+
+        $this->hasActions()->shouldReturn(true);
     }
 }

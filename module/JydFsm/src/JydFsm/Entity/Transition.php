@@ -47,6 +47,13 @@ class Transition
     private $state;
 
     /**
+     * @ORM\OneToMany(targetEntity="Action", mappedBy="transition")
+     *
+     * @var ArrayCollection
+     */
+    private $actions;
+
+    /**
      * @param State $state
      * @param State $target
      */
@@ -54,6 +61,7 @@ class Transition
     {
         $this->state = $state;
         $this->target = $target;
+        $this->actions = new ArrayCollection();
     }
 
     /**
@@ -86,5 +94,21 @@ class Transition
     public function execute()
     {
         $this->target->setSelfAsCurrent();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasActions()
+    {
+        return !$this->actions->isEmpty();
+    }
+
+    /**
+     * @param Action
+     */
+    public function addAction(Action $action)
+    {
+        $this->actions->add($action);
     }
 }
