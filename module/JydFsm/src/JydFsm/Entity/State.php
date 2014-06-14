@@ -144,7 +144,7 @@ class State
              return $entity->getName() == $transitionName;
         });
 
-        if ($t) {
+        if ($t->count()) {
             return $t->first();
         }
 

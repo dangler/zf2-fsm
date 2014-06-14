@@ -72,6 +72,6 @@ class StateSpec extends ObjectBehavior
 
         $this->getTransition('test_name_2')->shouldReturn($t2);
         $this->getTransition('test_name_1')->shouldNotReturn($t2);
-        $this->getTransition('invalid_name')->shouldThrowException();
+        $this->shouldThrow('\Exception')->during('getTransition', array('invalid_name'));
     }
 }
