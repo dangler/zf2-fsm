@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Transition;
 use JydFsm\Entity\Machine;
+use JydFsm\Entity\Action\Action;
 
 /**
  * Class State
@@ -77,11 +78,27 @@ class State
     private $machine;
 
     /**
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Action\Action", mappedBy="$stateEntry")
+     *
+     * @var ArrayCollection
+     */
+    private $onEntryActions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Action\Action", mappedBy="$stateExit")
+     *
+     * @var ArrayCollection
+     */
+    private $onExitActions;
+
+    /**
      *
      */
     public function __construct(Machine $machine) {
         $this->states = new ArrayCollection();
         $this->transitions = new ArrayCollection();
+        $this->onEntryActions = new ArrayCollection();
+        $this->onExitActions = new ArrayCollection();
         $this->machine = $machine;
     }
 
@@ -149,5 +166,38 @@ class State
         }
 
         throw new \Exception("Transition with name $transitionName was not found");
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOnEntryActions()
+    {
+        return !$this->onEntryActions->isEmpty();
+    }
+
+    /**
+     * @param Action $action
+     * @return bool
+     */
+    public function addOnEntryAction(Action $action)
+    {
+        $this->onEntryActions->add($action);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOnExitActions()
+    {
+        return !$this->onExitActions->isEmpty();
+    }
+
+    /**
+     * @param Action $action
+     */
+    public function addOnExitAction(Action $action)
+    {
+        $this->onExitActions->add($action);
     }
 }

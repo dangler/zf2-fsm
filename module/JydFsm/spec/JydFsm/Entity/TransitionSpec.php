@@ -2,7 +2,7 @@
 
 namespace spec\JydFsm\Entity;
 
-use JydFsm\Entity\Action;
+use JydFsm\Entity\Action\DummyAction as Action;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -40,5 +40,16 @@ class TransitionSpec extends ObjectBehavior
         $this->addAction($action);
 
         $this->hasActions()->shouldReturn(true);
+    }
+
+    function it_invokes_actions_when_executing(Action $a1, Action $a2)
+    {
+        $this->addAction($a1);
+        $this->addAction($a2);
+
+        $a1->invoke()->shouldBeCalled();
+        $a2->invoke()->shouldBeCalled();
+
+        $this->invokeActions();
     }
 }

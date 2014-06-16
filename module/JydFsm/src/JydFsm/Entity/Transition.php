@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\State;
+use JydFsm\Entity\Action\Action;
 
 /**
  * Class Transition
@@ -47,7 +48,7 @@ class Transition
     private $state;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action", mappedBy="transition")
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Action\Action", mappedBy="transition")
      *
      * @var ArrayCollection
      */
@@ -110,5 +111,15 @@ class Transition
     public function addAction(Action $action)
     {
         $this->actions->add($action);
+    }
+
+    /**
+     *
+     */
+    public function invokeActions()
+    {
+        foreach($this->actions as $action) {
+            $action->invoke();
+        }
     }
 }
