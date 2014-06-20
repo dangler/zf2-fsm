@@ -9,12 +9,12 @@ use Doctrine\ORM\EntityManager;
 class IndexController extends AbstractActionController
 {
     /**
-     * @var Doctrine\ORM\EntityManger
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     * @return Doctrine\ORM\EntityManger
+     * @return EntityManager
      */
     public function getEntityManager()
     {

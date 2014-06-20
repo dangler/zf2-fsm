@@ -24,19 +24,6 @@ class StateSpec extends ObjectBehavior
         $this->shouldHaveType('JydFsm\Entity\State');
     }
 
-    function it_can_contain_internal_states(State $state)
-    {
-        $this->hasInternalStates()->shouldReturn(false);
-
-        $this->addInternalState($state);
-
-        $this->hasInternalStates()->shouldReturn(true);
-
-        $this->addInternalState($state);
-
-        $this->hasInternalStates()->shouldReturn(true);
-    }
-
     function it_can_contain_transitions(Transition $transition)
     {
         $this->hasTransitions()->shouldReturn(false);

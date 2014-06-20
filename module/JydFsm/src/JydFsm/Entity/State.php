@@ -11,8 +11,6 @@ namespace JydFsm\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use JydFsm\Entity\Transition;
-use JydFsm\Entity\Machine;
 use JydFsm\Entity\Action\Action;
 
 /**
@@ -50,20 +48,6 @@ class State
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="parent")
-     *
-     * @var ArrayCollection
-     **/
-    private $states;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="State", inversedBy="children")
-     *
-     * @var State
-     **/
-    private $parent;
-
-    /**
      * @ORM\OneToMany(targetEntity="Transition", mappedBy="state")
      *
      * @var ArrayCollection
@@ -95,19 +79,10 @@ class State
      *
      */
     public function __construct(Machine $machine) {
-        $this->states = new ArrayCollection();
         $this->transitions = new ArrayCollection();
         $this->onEntryActions = new ArrayCollection();
         $this->onExitActions = new ArrayCollection();
         $this->machine = $machine;
-    }
-
-    /**
-     * @param State $state
-     */
-    public function addInternalState(State $state)
-    {
-        $this->states->add($state);
     }
 
     /**
@@ -199,5 +174,18 @@ class State
     public function addOnExitAction(Action $action)
     {
         $this->onExitActions->add($action);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasParent()
+    {
+        if ( $this->parent === null)
+        {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
