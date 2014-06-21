@@ -54,5 +54,8 @@ abstract class Action
      */
     private $transition;
 
+    /**
+     * Executes the action
+     */
     abstract public function invoke();
 } 

@@ -5,7 +5,7 @@ namespace JydFsm\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use JydFsm\Entity\State;
+use JydFsm\Entity\Guard\Guard;
 use JydFsm\Entity\Action\Action;
 
 /**
@@ -55,14 +55,30 @@ class Transition
     private $actions;
 
     /**
-     * @param State $state
-     * @param State $target
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Guard\Guard", mappedBy="transition")
+     *
+     * @var ArrayCollection
+     */
+    private $guards;
+
+    /**
+     * @param State $state state it belongs to
+     * @param State $target state it will transition to if executed
      */
     public function __construct(State $state, State $target)
     {
         $this->state = $state;
         $this->target = $target;
         $this->actions = new ArrayCollection();
+        $this->guards = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -90,10 +106,30 @@ class Transition
     }
 
     /**
-     * When executed set the target state as current in the machine
+     *
      */
     public function execute()
     {
+        // TODO: extract functionality to methods
+
+        // collects the result of all guard check results
+        $guardResults = $this->guards->map(
+            function($guard){
+                /** @var Guard $guard */
+                return $guard->check();
+            });
+
+        // if guardResults is not empty, check is any guard failed
+        if (count($guardResults) && $guardResults->contains(false)) {
+            return $guardResults;
+        }
+
+        // call all the actions
+        foreach($this->actions as $action) {
+            $action->invoke();
+        }
+
+        // update machine to the target state
         $this->target->setSelfAsCurrent();
     }
 
@@ -106,7 +142,7 @@ class Transition
     }
 
     /**
-     * @param Action
+     * @param Action $action
      */
     public function addAction(Action $action)
     {
@@ -114,12 +150,18 @@ class Transition
     }
 
     /**
-     *
+     * @return bool
      */
-    public function invokeActions()
+    public function hasGuards()
     {
-        foreach($this->actions as $action) {
-            $action->invoke();
-        }
+        return !$this->guards->isEmpty();
+    }
+
+    /**
+     * @param Guard $guard
+     */
+    public function addGuard(Guard $guard)
+    {
+        $this->guards->add($guard);
     }
 }

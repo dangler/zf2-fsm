@@ -12,7 +12,7 @@ class DummyActionSpec extends ObjectBehavior
         $this->shouldHaveType('JydFsm\Entity\Action\DummyAction');
     }
 
-    function is_should_do_nothing_and_return_true_when_invoked()
+    function it_should_do_nothing_and_return_true_when_invoked()
     {
         $this->invoke()->shouldReturn(true);
     }

@@ -3,6 +3,7 @@
 namespace spec\JydFsm\Entity;
 
 use JydFsm\Entity\Action\DummyAction as Action;
+use JydFsm\Entity\Guard\DummyGuard as Guard;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -50,6 +51,20 @@ class TransitionSpec extends ObjectBehavior
         $a1->invoke()->shouldBeCalled();
         $a2->invoke()->shouldBeCalled();
 
-        $this->invokeActions();
+        $this->execute();
+    }
+
+    function it_can_have_guards()
+    {
+        $this->hasGuards()->shouldReturn(false);
+    }
+
+    function it_checks_guards_when_executing(Guard $g1)
+    {
+        $this->addGuard($g1);
+
+        $g1->check()->shouldBeCalled();
+
+        $this->execute();
     }
 }
