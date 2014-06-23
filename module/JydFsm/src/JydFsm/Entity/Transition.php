@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Guard\Guard;
+use JydFsm\Entity\Guard\Result;
 use JydFsm\Entity\Action\Action;
 
 /**
@@ -112,7 +113,7 @@ class Transition
     {
         // TODO: extract functionality to methods
 
-        // collects the result of all guard check results
+        // collects all guard check results
         $guardResults = $this->guards->map(
             function($guard){
                 /** @var Guard $guard */
@@ -120,7 +121,14 @@ class Transition
             });
 
         // if guardResults is not empty, check is any guard failed
-        if (count($guardResults) && $guardResults->contains(false)) {
+        $guardResultPredicate = function($guardResult) {
+            /** @var Result $guardResult */
+            if ($guardResult) {
+                return $guardResult->getResult();
+            }
+        };
+
+        if (count($guardResults) && $guardResults->forAll($guardResultPredicate)) {
             return $guardResults;
         }
 

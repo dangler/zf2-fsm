@@ -47,9 +47,41 @@ abstract class Guard
     private $transition;
 
     /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Transition
+     */
+    public function getTransition()
+    {
+        return $this->transition;
+    }
+
+    /**
      * Checks if the guard has been met
      *
-     * @return bool
+     * @return Result
      */
     abstract public function check();
 }

@@ -59,11 +59,11 @@ class TransitionSpec extends ObjectBehavior
         $this->hasGuards()->shouldReturn(false);
     }
 
-    function it_checks_guards_when_executing(Guard $g1)
+    function it_checks_guards_when_executing(Guard $g)
     {
-        $this->addGuard($g1);
+        $this->addGuard($g);
 
-        $g1->check()->shouldBeCalled();
+        $g->check()->shouldBeCalled();
 
         $this->execute();
     }

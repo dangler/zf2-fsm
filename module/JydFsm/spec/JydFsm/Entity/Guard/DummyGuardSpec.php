@@ -14,6 +14,7 @@ class DummyGuardSpec extends ObjectBehavior
 
     function it_should_do_nothing_and_return_true_when_invoked()
     {
-        $this->check()->shouldReturn(true);
+        $result = $this->check();
+        $result->shouldBeAnInstanceOf('JydFsm\Entity\Guard\Result');
     }
 }

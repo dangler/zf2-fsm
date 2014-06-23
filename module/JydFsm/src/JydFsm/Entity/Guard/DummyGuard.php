@@ -9,10 +9,10 @@ class DummyGuard extends Guard
      * {@inheritdoc}
      * This concrete guard does not perform any check, it only returns true
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        return true;
+        return new Result($this->getName(), true);
     }
 }
