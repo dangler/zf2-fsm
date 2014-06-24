@@ -13,6 +13,9 @@ use JydFsm\Entity\Transition;
  *
  * @ORM\Entity
  * @ORM\Table(name="guard")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="descr", type="string")
+ * @ORM\DiscriminatorMap({"dummy"="DummyGuard"})
  */
 abstract class Guard
 {

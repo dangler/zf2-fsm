@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Action\Action;
+use JydFsm\Entity\Element\Element;
 
 /**
  * Class State
@@ -48,6 +49,13 @@ class State
     private $description;
 
     /**
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Element\Element", mappedBy="state")
+     *
+     * @var ArrayCollection
+     */
+    private $elements;
+
+    /**
      * @ORM\OneToMany(targetEntity="Transition", mappedBy="state")
      *
      * @var ArrayCollection
@@ -82,6 +90,7 @@ class State
         $this->transitions = new ArrayCollection();
         $this->onEntryActions = new ArrayCollection();
         $this->onExitActions = new ArrayCollection();
+        $this->elements = new ArrayCollection();
         $this->machine = $machine;
     }
 
@@ -207,5 +216,21 @@ class State
         } else {
             return true;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasElements()
+    {
+        return !$this->elements->isEmpty();
+    }
+
+    /**
+     * @param Element $element
+     */
+    public function addElement(Element $element)
+    {
+        $this->elements->add($element);
     }
 }

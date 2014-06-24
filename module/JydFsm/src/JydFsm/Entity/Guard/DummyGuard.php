@@ -2,6 +2,15 @@
 
 namespace JydFsm\Entity\Guard;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class DummyGuard
+ *
+ * @package JydFsm\Entity\Guard
+ *
+ * @ORM\Entity
+ */
 class DummyGuard extends Guard
 {
 

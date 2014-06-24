@@ -2,6 +2,7 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\Element\Element;
 use JydFsm\Entity\Machine;
 use JydFsm\Entity\State;
 use JydFsm\Entity\Transition;
@@ -24,7 +25,7 @@ class StateSpec extends ObjectBehavior
         $this->shouldHaveType('JydFsm\Entity\State');
     }
 
-    function it_can_contain_transitions(Transition $transition)
+    function it_can_have_transitions(Transition $transition)
     {
         $this->hasTransitions()->shouldReturn(false);
 
@@ -79,5 +80,14 @@ class StateSpec extends ObjectBehavior
         $this->addOnExitAction($a1);
 
         $this->hasOnExitActions()->shouldReturn(true);
+    }
+
+    function it_can_have_elements(Element $element)
+    {
+        $this->hasElements()->shouldReturn(false);
+
+        $this->addElement($element);
+
+        $this->hasElements()->shouldReturn(true);
     }
 }
