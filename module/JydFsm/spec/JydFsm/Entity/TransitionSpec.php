@@ -30,6 +30,7 @@ class TransitionSpec extends ObjectBehavior
 
     function it_can_change_the_machines_current_state_to_its_target_state_when_executing($target)
     {
+        $target->invokeOnEntryActions()->shouldBeCalled();
         $target->setSelfAsCurrent()->shouldBeCalled();
         $this->execute();
     }
@@ -50,6 +51,21 @@ class TransitionSpec extends ObjectBehavior
 
         $a1->invoke()->shouldBeCalled();
         $a2->invoke()->shouldBeCalled();
+
+        $this->execute();
+    }
+
+    function it_invokes_source_state_on_exit_actions_when_executing($state)
+    {
+        $state->invokeOnExitActions()->shouldBeCalled();
+
+        $this->execute();
+    }
+
+    function it_invokes_target_state_on_entry_actions_when_executing($target)
+    {
+        $target->invokeOnEntryActions()->shouldBeCalled();
+        $target->setSelfAsCurrent()->shouldBeCalled();
 
         $this->execute();
     }

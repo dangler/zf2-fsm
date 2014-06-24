@@ -161,6 +161,26 @@ class State
     }
 
     /**
+     *
+     */
+    public function invokeOnEntryActions()
+    {
+        foreach ($this->onEntryActions as $action) {
+            $action->invoke();
+        }
+    }
+
+    /**
+     *
+     */
+    public function invokeOnExitActions()
+    {
+        foreach ($this->onEntryActions as $action) {
+            $action->invoke();
+        }
+    }
+
+    /**
      * @return bool
      */
     public function hasOnExitActions()

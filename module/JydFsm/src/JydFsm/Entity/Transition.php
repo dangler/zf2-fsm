@@ -111,8 +111,6 @@ class Transition
      */
     public function execute()
     {
-        // TODO: extract functionality to methods
-
         // collects all guard check results
         $guardResults = $this->guards->map(
             function($guard){
@@ -128,14 +126,21 @@ class Transition
             }
         };
 
+        // if any guards failed then return and don't execute actions
         if (count($guardResults) && $guardResults->forAll($guardResultPredicate)) {
             return $guardResults;
         }
+
+        // call all on exit actions for the source
+        $this->state->invokeOnExitActions();
 
         // call all the actions
         foreach($this->actions as $action) {
             $action->invoke();
         }
+
+        // call all on entry actions for target
+        $this->target->invokeOnEntryActions();
 
         // update machine to the target state
         $this->target->setSelfAsCurrent();

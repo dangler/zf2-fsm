@@ -2,6 +2,14 @@
 
 namespace JydFsm\Entity\Guard;
 
+/**
+ * Class Result
+ *
+ * This is a value object and should not be persisted.  It is used to get guard checks back when trying to
+ *      execute a transition.
+ *
+ * @package JydFsm\Entity\Guard
+ */
 class Result
 {
     /**
