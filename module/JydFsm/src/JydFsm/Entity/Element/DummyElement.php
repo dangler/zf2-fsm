@@ -13,4 +13,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DummyElement extends Element
 {
+
 }

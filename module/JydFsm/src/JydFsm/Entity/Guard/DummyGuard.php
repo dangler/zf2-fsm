@@ -13,15 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DummyGuard extends Guard
 {
-
     /**
      * {@inheritdoc}
-     * This concrete guard does not perform any check, it only returns true
+     * This concrete guard does not perform any check, it only returns true result
      *
      * @return Result
      */
     public function check()
     {
-        return new Result($this->getName(), true);
+        return new Result($this->getName(), $this->getDescription());
     }
 }

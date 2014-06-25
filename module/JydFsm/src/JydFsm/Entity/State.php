@@ -49,6 +49,13 @@ class State
     private $description;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="states")
+     *
+     * @var Role
+     */
+    private $role;
+
+    /**
      * @ORM\OneToMany(targetEntity="JydFsm\Entity\Element\Element", mappedBy="state")
      *
      * @var ArrayCollection
@@ -97,14 +104,6 @@ class State
     /**
      * @return bool
      */
-    public function hasInternalStates()
-    {
-        return !$this->states->isEmpty();
-    }
-
-    /**
-     * @return bool
-     */
     public function hasTransitions()
     {
         return !$this->transitions->isEmpty();
@@ -141,8 +140,9 @@ class State
      */
     public function getTransition($transitionName)
     {
-        $t = $this->transitions->filter(function($entity) use ($transitionName) {
-             return $entity->getName() == $transitionName;
+        $t = $this->transitions->filter(function($transition) use ($transitionName) {
+            /** @var Transition $transition */
+             return $transition->getName() == $transitionName;
         });
 
         if ($t->count()) {
@@ -208,19 +208,6 @@ class State
     /**
      * @return bool
      */
-    public function hasParent()
-    {
-        if ( $this->parent === null)
-        {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * @return bool
-     */
     public function hasElements()
     {
         return !$this->elements->isEmpty();
@@ -232,5 +219,45 @@ class State
     public function addElement(Element $element)
     {
         $this->elements->add($element);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hadRole()
+    {
+        return isset($this->role);
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function setRole(Role $role)
+    {
+        $this->role = $role;
     }
 }

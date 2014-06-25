@@ -3,13 +3,13 @@
 namespace spec\JydFsm\Entity;
 
 use JydFsm\Entity\Element\Element;
+use JydFsm\Entity\Role;
 use JydFsm\Entity\Machine;
 use JydFsm\Entity\State;
 use JydFsm\Entity\Transition;
 use JydFsm\Entity\Action\DummyAction as Action;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-
 
 class StateSpec extends ObjectBehavior
 {
@@ -36,6 +36,13 @@ class StateSpec extends ObjectBehavior
         $this->addTransition($transition);
 
         $this->hasTransitions()->shouldReturn(true);
+    }
+
+    function it_must_have_a_role_assigned(Role $role)
+    {
+        $this->setRole($role);
+
+        $this->hadRole()->shouldReturn(true);
     }
 
     function it_must_be_able_return_the_machine_it_belongs_to($machine)

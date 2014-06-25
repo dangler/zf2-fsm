@@ -111,24 +111,11 @@ class Transition
      */
     public function execute()
     {
-        // collects all guard check results
-        $guardResults = $this->guards->map(
-            function($guard){
-                /** @var Guard $guard */
-                return $guard->check();
-            });
+        // check the guards, return results if not true
+        $result = $this->checkGuards();
 
-        // if guardResults is not empty, check is any guard failed
-        $guardResultPredicate = function($guardResult) {
-            /** @var Result $guardResult */
-            if ($guardResult) {
-                return $guardResult->getResult();
-            }
-        };
-
-        // if any guards failed then return and don't execute actions
-        if (count($guardResults) && $guardResults->forAll($guardResultPredicate)) {
-            return $guardResults;
+        if ($result !== true) {
+            return $result;
         }
 
         // call all on exit actions for the source
@@ -144,6 +131,34 @@ class Transition
 
         // update machine to the target state
         $this->target->setSelfAsCurrent();
+    }
+
+    /*
+     * @return ArrayCollection|boolean
+     */
+    public function checkGuards()
+    {
+        // collects all guard check results
+        $guardResults = $this->guards->map(
+            function($guard){
+                /** @var Guard $guard */
+                return $guard->check();
+            });
+
+        // predicate function for - if guardResults is not empty, check if any guard failed
+        $guardResultPredicate = function($key, $guardResult) {
+            /** @var Result $guardResult */
+            if ($guardResult) {
+                return $guardResult->result;
+            }
+        };
+
+        // if any guards failed then return and don't execute actions
+        if (!$guardResults->forAll($guardResultPredicate)) {
+            return $guardResults;
+        } else {
+            return true;
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace spec\JydFsm\Entity;
 
 use JydFsm\Entity\Action\DummyAction as Action;
 use JydFsm\Entity\Guard\DummyGuard as Guard;
+use JydFsm\Entity\Guard\Result;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -82,5 +83,32 @@ class TransitionSpec extends ObjectBehavior
         $g->check()->shouldBeCalled();
 
         $this->execute();
+    }
+
+    function it_returns_guard_results_if_a_guard_fails(Guard $g1, Result $r1, Guard $g2, Result $r2)
+    {
+        $r1->result = true;
+        $g1->check()->willReturn($r1);
+        $this->addGuard($g1);
+
+        $r2->result = false;
+        $g2->check()->willReturn($r2);
+        $this->addGuard($g2);
+
+        $results = $this->checkGuards();
+        $results->shouldBeAnInstanceOf('Doctrine\Common\Collections\ArrayCollection');
+    }
+
+    function it_returns_true_if_all_guards_pass(Guard $g1, Result $r1, Guard $g2, Result $r2)
+    {
+        $r1->result = true;
+        $g1->check()->willReturn($r1);
+        $this->addGuard($g1);
+
+        $r2->result = true;
+        $g2->check()->willReturn($r2);
+        $this->addGuard($g2);
+
+        $this->checkGuards()->shouldReturn(true);
     }
 }
