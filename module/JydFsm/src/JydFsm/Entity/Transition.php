@@ -107,7 +107,7 @@ class Transition
     }
 
     /**
-     *
+     * @return bool|ArrayCollection
      */
     public function execute()
     {
@@ -131,6 +131,8 @@ class Transition
 
         // update machine to the target state
         $this->target->setSelfAsCurrent();
+
+        return true;
     }
 
     /*
@@ -156,9 +158,9 @@ class Transition
         // if any guards failed then return and don't execute actions
         if (!$guardResults->forAll($guardResultPredicate)) {
             return $guardResults;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
