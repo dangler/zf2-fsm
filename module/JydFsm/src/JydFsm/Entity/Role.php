@@ -38,6 +38,13 @@ class Role
     private $description;
 
     /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="roles")
+     *
+     * @var User
+     */
+    private $user;
+
+    /**
      * @ORM\OneToMany(targetEntity="State", mappedBy="state")
      *
      * @var State
@@ -74,5 +81,21 @@ class Role
     public function getStates()
     {
         return $this->states;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

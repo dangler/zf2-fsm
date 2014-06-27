@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Action\Action;
 use JydFsm\Entity\Element\Element;
-use PhpSpec\Exception\Exception;
 
 /**
  * Class State
