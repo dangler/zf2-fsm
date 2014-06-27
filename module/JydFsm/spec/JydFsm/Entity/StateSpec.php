@@ -57,11 +57,6 @@ class StateSpec extends ObjectBehavior
         $this->hadRole()->shouldReturn(true);
     }
 
-    function it_must_be_able_return_the_machine_it_belongs_to($machine)
-    {
-        $this->getMachine()->shouldReturn($machine);
-    }
-
     function it_can_find_transition_for_given_transition_name_correctly(Transition $t1, Transition $t2, Transition $t3)
     {
         $t1->getName()->willReturn('test_name_1');

@@ -131,14 +131,6 @@ class State
     }
 
     /**
-     * @return Machine
-     */
-    public function getMachine()
-    {
-        return $this->machine;
-    }
-
-    /**
      * @param $transitionName
      * @return Transition
      * @throws \Exception
