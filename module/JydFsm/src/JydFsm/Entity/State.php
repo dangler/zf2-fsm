@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use JydFsm\Entity\Action\Action;
 use JydFsm\Entity\Element\Element;
+use PhpSpec\Exception\Exception;
 
 /**
  * Class State
@@ -70,6 +71,13 @@ class State
     private $transitions;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
+     */
+    private $defaultTransitionKey;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Machine", inversedBy="states")
      *
      * @var Machine
@@ -110,11 +118,16 @@ class State
     }
 
     /**
-     * @param Transition
+     * @param Transition $transition
+     * @param bool $default set as default
      */
-    public function addTransition(Transition $transition)
+    public function addTransition(Transition $transition, $default = false)
     {
         $this->transitions->add($transition);
+
+        if ($default) {
+            $this->defaultTransitionKey = $this->transitions->indexOf($transition);
+        }
     }
 
     /**
@@ -123,14 +136,6 @@ class State
     public function getMachine()
     {
         return $this->machine;
-    }
-
-    /**
-     * Sets the machine's current state to self
-     */
-    public function setSelfAsCurrent()
-    {
-        $this->machine->setCurrentState($this);
     }
 
     /**
@@ -259,5 +264,28 @@ class State
     public function setRole(Role $role)
     {
         $this->role = $role;
+    }
+
+    /**
+     * @return Transition
+     * @throws \Exception
+     */
+    public function getDefaultTransition()
+    {
+        if ($this->transitions->isEmpty()) {
+            throw new \Exception('State contains no transition');
+        }
+
+        // return first if default not set
+        if ($this->defaultTransitionKey == null) {
+            return $this->transitions->first();
+        }
+
+        return $this->transitions->get($this->defaultTransitionKey);
+    }
+
+    public function setSelfAsCurrent()
+    {
+        // TODO: write logic here
     }
 }

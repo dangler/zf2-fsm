@@ -17,6 +17,7 @@ class Result
      */
     public $guardName;
 
+
     /**
      * @var string
      */

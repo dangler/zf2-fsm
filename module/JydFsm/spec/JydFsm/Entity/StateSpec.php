@@ -17,7 +17,7 @@ class StateSpec extends ObjectBehavior
     {
         $machine->beADoubleOf('JydFsm\Entity\Machine');
 
-        $this->beConstructedWith($machine, null);
+        $this->beConstructedWith($machine, false);
     }
 
     function it_is_initializable()
@@ -25,17 +25,29 @@ class StateSpec extends ObjectBehavior
         $this->shouldHaveType('JydFsm\Entity\State');
     }
 
-    function it_can_have_transitions(Transition $transition)
+    function it_can_have_transitions(Transition $t1, Transition $t2)
     {
         $this->hasTransitions()->shouldReturn(false);
 
-        $this->addTransition($transition);
+        $this->addTransition($t1);
 
         $this->hasTransitions()->shouldReturn(true);
 
-        $this->addTransition($transition);
+        $this->addTransition($t2);
 
         $this->hasTransitions()->shouldReturn(true);
+    }
+
+    function it_can_set_default_transition(Transition $t1, Transition $t2)
+    {
+        $this->addTransition($t1);
+
+        //defaults to first transition if default not specified
+        $this->getDefaultTransition()->shouldReturn($t1);
+
+        $this->addTransition($t2, true);
+
+        $this->getDefaultTransition()->shouldReturn($t2);
     }
 
     function it_must_have_a_role_assigned(Role $role)
@@ -48,12 +60,6 @@ class StateSpec extends ObjectBehavior
     function it_must_be_able_return_the_machine_it_belongs_to($machine)
     {
         $this->getMachine()->shouldReturn($machine);
-    }
-
-    function it_can_set_itself_as_current($machine)
-    {
-        $machine->setCurrentState($this)->shouldBeCalled();
-        $this->setSelfAsCurrent();
     }
 
     function it_can_find_transition_for_given_transition_name_correctly(Transition $t1, Transition $t2, Transition $t3)

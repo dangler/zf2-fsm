@@ -11,12 +11,13 @@ use Prophecy\Argument;
 
 class TransitionSpec extends ObjectBehavior
 {
-    function let($state, $target)
+    function let($machine, $state, $target)
     {
+        $machine->beADoubleOf('JydFsm\Entity\Machine');
         $state->beADoubleOf('JydFsm\Entity\State');
         $target->beADoubleOf('JydFsm\Entity\State');
 
-        $this->beConstructedWith($state, $target);
+        $this->beConstructedWith($machine, $state, $target);
     }
 
     function it_must_be_able_to_return_owning_state($state)
@@ -29,10 +30,11 @@ class TransitionSpec extends ObjectBehavior
         $this->getTarget()->shouldReturn($target);
     }
 
-    function it_can_change_the_machines_current_state_to_its_target_state_when_executing($target)
+    function it_changes_the_machines_current_state_to_its_target_state_when_executing($machine, $target)
     {
         $target->invokeOnEntryActions()->shouldBeCalled();
-        $target->setSelfAsCurrent()->shouldBeCalled();
+        $machine->setCurrentState($target)->shouldBeCalled();
+
         $this->execute();
     }
 
@@ -66,7 +68,6 @@ class TransitionSpec extends ObjectBehavior
     function it_invokes_target_state_on_entry_actions_when_executing($target)
     {
         $target->invokeOnEntryActions()->shouldBeCalled();
-        $target->setSelfAsCurrent()->shouldBeCalled();
 
         $this->execute();
     }

@@ -35,6 +35,13 @@ class Transition
     private $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="transitions")
+     *
+     * @var Machine
+     */
+    private $machine;
+
+    /**
      * @ORM\OneToOne(targetEntity="State")
      *
      * @var State
@@ -63,11 +70,13 @@ class Transition
     private $guards;
 
     /**
+     * @param Machine $machine machine that transition is in
      * @param State $state state it belongs to
      * @param State $target state it will transition to if executed
      */
-    public function __construct(State $state, State $target)
+    public function __construct(Machine $machine, State $state, State $target)
     {
+        $this->machine = $machine;
         $this->state = $state;
         $this->target = $target;
         $this->actions = new ArrayCollection();
@@ -130,7 +139,7 @@ class Transition
         $this->target->invokeOnEntryActions();
 
         // update machine to the target state
-        $this->target->setSelfAsCurrent();
+        $this->machine->setCurrentState($this->target);
 
         return true;
     }
