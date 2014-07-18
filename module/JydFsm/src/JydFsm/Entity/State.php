@@ -98,7 +98,7 @@ class State
     private $onExitActions;
 
     /**
-     *
+     * @param Machine $machine machine that owns the state
      */
     public function __construct(Machine $machine) {
         $this->transitions = new ArrayCollection();
@@ -146,6 +146,14 @@ class State
         }
 
         throw new \Exception("Transition with name $transitionName was not found");
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTransitions()
+    {
+        return $this->transitions;
     }
 
     /**
@@ -242,6 +250,14 @@ class State
     }
 
     /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return mixed
      */
     public function getDescription()
@@ -249,6 +265,13 @@ class State
         return $this->description;
     }
 
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
     /**
      * @param Role $role
      */

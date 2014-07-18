@@ -22,7 +22,7 @@ use JydFsm\Entity\State;
  * @ORM\Table(name="action")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="descr", type="string")
- * @ORM\DiscriminatorMap({"dummy"="DummyAction"})
+ * @ORM\DiscriminatorMap({"dummy"="DummyAction", "email"="EmailAction"})
  */
 abstract class Action
 {
@@ -56,6 +56,13 @@ abstract class Action
      * @var Transition
      */
     private $transition;
+
+    /**
+     * @ORM\Column(type="array")
+     *
+     * @var array
+     */
+    private $options = array();
 
     /**
      * Executes the action
