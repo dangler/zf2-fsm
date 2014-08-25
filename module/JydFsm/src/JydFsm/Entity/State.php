@@ -108,7 +108,7 @@ class State
         $this->machine = $machine;
     }
 
-    /**
+    /**zf2-fsm
      * @return bool
      */
     public function hasTransitions()

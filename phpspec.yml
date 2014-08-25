@@ -2,5 +2,5 @@ suites:
     etc_user_suite:
         namespace:    JydFsm
         spec_prefix:    spec
-        src_path:       'module\JydFsm\src'
-        spec_path:      'module\JydFsm'
+        src_path:       'module/JydFsm/src'
+        spec_path:      'module/JydFsm'
