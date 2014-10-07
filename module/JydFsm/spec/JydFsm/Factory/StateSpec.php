@@ -24,7 +24,14 @@ class StateSpec extends ObjectBehavior
 
         $state = $this->createState($machine, $config);
 
+        // test if instance
         $state->shouldBeAnInstanceOf('JydFsm\Entity\State');
+
+        // test if name was set correctly
+        $state->getName()->shouldReturn($config->name);
+
+        // test if description was set correctly
+        $state->getDescription()->shouldReturn($config->description);
     }
 
     function it_can_throw_error_if_any_required_config_data_missing(Machine $machine)

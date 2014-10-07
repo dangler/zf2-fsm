@@ -100,6 +100,14 @@ class Transition
     }
 
     /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return State
      */
     public function getTarget()

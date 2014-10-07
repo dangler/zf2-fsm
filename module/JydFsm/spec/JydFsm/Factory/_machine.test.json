@@ -1,0 +1,29 @@
+{
+    "states" : [
+        {
+            "name" : "State 0",
+            "description" : "State 0 desc"
+        },
+        {
+            "name" : "State 1",
+            "description" : "State 1 desc"
+        },
+        {
+            "name" : "State 2",
+            "description" : "State 2 desc"
+        }
+    ],
+    "transitions" : [
+        {
+            "name" : "Transition 0",
+            "state" : "State 0",
+            "target" : "State 1"
+        },
+        {
+            "name" : "Transition 1",
+            "state" : "State 1",
+            "target" : "State 2"
+        }
+    ]
+
+}
