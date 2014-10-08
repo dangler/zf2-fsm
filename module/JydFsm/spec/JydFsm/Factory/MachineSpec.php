@@ -25,6 +25,10 @@ class MachineSpec extends ObjectBehavior
 
         $machine->shouldBeAnInstanceOf('JydFsm\Entity\Machine');
 
-        // TODO: makes sure the machine contains the write states and transitions
+        // make sure the machine has 3 states as speced in the json file
+        $machine->getStates()->shouldHaveCount(3);
+
+        // make sure the states have the appropriate transitions
+        // TODO
     }
 }

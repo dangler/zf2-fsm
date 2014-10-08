@@ -64,6 +64,11 @@ class Machine
         return !$this->states->isEmpty();
     }
 
+    public function getStates()
+    {
+        return $this->states;
+    }
+
     public function getCurrent()
     {
         return $this->current;
@@ -80,5 +85,19 @@ class Machine
     public function setCurrentState($state)
     {
         $this->current = $this->states->indexOf($state);
+    }
+
+    public function getState($stateName)
+    {
+        $t = $this->states->filter(function($state) use ($stateName) {
+            /** @var State $state */
+            return $state->getName() == $stateName;
+        });
+
+        if ($t->count()) {
+            return $t->first();
+        }
+
+        throw new \Exception("Transition with name $stateName was not found");
     }
 }
