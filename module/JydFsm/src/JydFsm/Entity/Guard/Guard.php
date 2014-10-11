@@ -58,6 +58,14 @@ abstract class Guard
     }
 
     /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
      * @return int
      */
     public function getId()
@@ -71,6 +79,14 @@ abstract class Guard
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

@@ -27,8 +27,12 @@ class MachineSpec extends ObjectBehavior
 
         // make sure the machine has 3 states as speced in the json file
         $machine->getStates()->shouldHaveCount(3);
+        $machine->getState('State 0')->shouldBeAnInstanceOf('JydFsm\Entity\State');
+        $machine->getState('State 1')->shouldBeAnInstanceOf('JydFsm\Entity\State');
+        $machine->getState('State 2')->shouldBeAnInstanceOf('JydFsm\Entity\State');
 
         // make sure the states have the appropriate transitions
-        // TODO
+        $machine->getState('State 0')->getTransition('Transition 0')->shouldBeAnInstanceOf('JydFsm\Entity\Transition');
+        $machine->getState('State 1')->getTransition('Transition 1')->shouldBeAnInstanceOf('JydFsm\Entity\Transition');
     }
 }

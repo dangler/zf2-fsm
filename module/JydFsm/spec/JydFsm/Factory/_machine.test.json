@@ -17,12 +17,24 @@
         {
             "name" : "Transition 0",
             "state" : "State 0",
-            "target" : "State 1"
+            "target" : "State 1",
+            "actions" : [
+
+            ],
+            "guards" : [
+
+            ]
         },
         {
             "name" : "Transition 1",
             "state" : "State 1",
-            "target" : "State 2"
+            "target" : "State 2",
+            "actions" : [
+
+            ],
+            "guards" : [
+
+            ]
         }
     ]
 
