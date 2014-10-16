@@ -2,27 +2,69 @@
     "states" : [
         {
             "name" : "State 0",
-            "description" : "State 0 desc"
+            "description" : "State 0 desc",
+            "onEntryActions" : [
+                {
+                    "type" : "dummy"
+                }
+            ],
+            "onExitActions" : [
+                {
+                    "type" : "dummy"
+                }
+            ]
         },
         {
             "name" : "State 1",
-            "description" : "State 1 desc"
+            "description" : "State 1 desc",
+            "onEntryActions" : [
+
+            ],
+            "onExitActions" : [
+
+            ]
         },
         {
             "name" : "State 2",
-            "description" : "State 2 desc"
+            "description" : "State 2 desc",
+            "onEntryActions" : [
+
+            ],
+            "onExitActions" : [
+
+            ]
         }
     ],
+
+    "elements" : [
+        {
+            "name" : "Element 0",
+            "type" : "dummy",
+            "state" : "State 0"
+        },
+        {
+            "name" : "Element 1",
+            "type" : "dummy",
+            "state" : "State 1"
+        }
+    ],
+
     "transitions" : [
         {
             "name" : "Transition 0",
             "state" : "State 0",
             "target" : "State 1",
             "actions" : [
-
+                {
+                    "type" : "dummy"
+                }
             ],
             "guards" : [
-
+                {
+                    "name" : "Guard 0",
+                    "type" : "dummy",
+                    "description" : "Guard 0 desc"
+                }
             ]
         },
         {

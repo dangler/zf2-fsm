@@ -217,6 +217,20 @@ class State
         return !$this->elements->isEmpty();
     }
 
+    public function getElement($elementName)
+    {
+        $e = $this->elements->filter(function($element) use ($elementName) {
+            /** @var Element $element */
+            return $element->getName() == $elementName;
+        });
+
+        if ($e->count()) {
+            return $e->first();
+        }
+
+        throw new \Exception("Element with name $elementName was not found");
+    }
+
     /**
      * @param Element $element
      */
@@ -296,10 +310,5 @@ class State
         }
 
         return $this->transitions->get($this->defaultTransitionKey);
-    }
-
-    public function setSelfAsCurrent()
-    {
-        // TODO: write logic here
     }
 }

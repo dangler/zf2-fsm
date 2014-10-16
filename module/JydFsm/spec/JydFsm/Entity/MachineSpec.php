@@ -2,6 +2,7 @@
 
 namespace spec\JydFsm\Entity;
 
+use JydFsm\Entity\Element\Element;
 use JydFsm\Entity\State;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -33,6 +34,19 @@ class MachineSpec extends ObjectBehavior
         $this->addState($state);
 
         $this->getStates()->shouldHaveCount(2);
+    }
+
+    function it_can_return_elements(Element $element)
+    {
+        $this->getElements()->shouldHaveCount(0);
+
+        $this->addElement($element);
+
+        $this->getElements()->shouldHaveCount(1);
+
+        $this->addElement($element);
+
+        $this->getElements()->shouldHaveCount(2);
     }
 
     function it_can_return_state_for_given_state_name(State $s1, State $s2, State $s3)

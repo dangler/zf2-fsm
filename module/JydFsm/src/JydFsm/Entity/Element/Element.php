@@ -46,6 +46,13 @@ abstract class Element
     private $state;
 
     /**
+     * @ORM\ManyToOne(targetEntity="JydFsm\Entity\State", inversedBy="elements")
+     *
+     * @var Machine
+     */
+    private $machine;
+
+    /**
      * @ORM\OneToMany(targetEntity="JydFsm\Entity\Validator\Validator", mappedBy="element")
      *
      * @var ArrayCollection

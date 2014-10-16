@@ -5,6 +5,7 @@ namespace JydFsm\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JydFsm\Entity\Element\Element;
 
 /**
  * Class Machine
@@ -31,6 +32,13 @@ class Machine
     private $states;
 
     /**
+     * @ORM\OneToMany(targetEntity="Element", mappedBy="machine")
+     *
+     * @var ArrayCollection
+     */
+    private $elements;
+
+    /**
      * @ORM\Column(type="integer")
      *
      * @var int
@@ -48,6 +56,7 @@ class Machine
     public function __construct()
     {
         $this->states = new ArrayCollection();
+        $this->elements = new ArrayCollection();
     }
 
     public function addState(State $state, $isCurrent = false)
@@ -99,5 +108,29 @@ class Machine
         }
 
         throw new \Exception("Transition with name $stateName was not found");
+    }
+
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
+    public function addElement(Element $element)
+    {
+        $this->elements->add($element);
+    }
+
+    public function getElement($elementName)
+    {
+        $e = $this->elements->filter(function($element) use ($elementName) {
+            /** @var Element $element */
+            return $element->getName() == $elementName;
+        });
+
+        if ($e->count()) {
+            return $e->first();
+        }
+
+        throw new \Exception("Element with name $elementName was not found");
     }
 }

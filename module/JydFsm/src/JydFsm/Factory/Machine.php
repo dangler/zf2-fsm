@@ -22,19 +22,36 @@ class Machine
             throw new \Exception;
         }
 
+        // elements
+        if (!isset($config->elements)) {
+            throw new \Exception;
+        }
+
         $stateFactory = new State();
         $transFactory = new Transition();
+        $elementsFactory = new Element();
+        $actionFactory = new Action();
+        $guardFactory = new Guard();
 
         // get all the states
         $states = array();
         foreach ($config->states as $stateConfig) {
-            $states[$stateConfig->name] = $stateFactory->createState($machine, $stateConfig);
+            $state = $stateFactory->createState($machine, $stateConfig);
+
+            // get and add the onEntryActions and onExitActions
+            foreach ($stateConfig->onEntryActions as $entryConfig) {
+                $state->addOnEntryAction($actionFactory->createAction($entryConfig));
+            }
+            foreach ($stateConfig->onExitActions as $exitConfig) {
+                $state->addOnExitAction($actionFactory->createAction($exitConfig));
+            }
+
+            $states[$stateConfig->name] = $state;
         }
 
         // get all the transitions and add to their state
-        $transitions = array();
         foreach ($config->transitions as $transConfig) {
-            $transitions[$transConfig->name] =
+            $transition =
                 $transFactory->createTransition(
                     $machine,
                     $states[$transConfig->state],
@@ -42,7 +59,25 @@ class Machine
                     $transConfig
                 );
 
-            $states[$transConfig->state]->addTransition($transitions[$transConfig->name]);
+            // get and add the actions
+            foreach ($transConfig->actions as $actionConfig) {
+                $transition->addAction($actionFactory->createAction($actionConfig));
+            }
+
+            // get and add the guards
+            foreach ($transConfig->guards as $guardConfig) {
+                $transition->addGuard($guardFactory->createGuard($guardConfig));
+            }
+
+            $states[$transConfig->state]->addTransition($transition);
+        }
+
+        // get all the elements and add to the machine and their state
+        foreach ($config->elements as $elementConfig) {
+            $element = $elementsFactory->createElement($elementConfig);
+
+            $machine->addElement($element);
+            $states[$elementConfig->state]->addElement($element);
         }
 
         // add the states to the machine
