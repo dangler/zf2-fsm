@@ -29,11 +29,13 @@ class Machine
 
         $stateFactory = new State();
         $transFactory = new Transition();
-        $elementsFactory = new Element();
+        $elementFactory = new Element();
         $actionFactory = new Action();
         $guardFactory = new Guard();
+        $roleFactory = new Role();
+        $validatorFactory = new Validator();
 
-        // get all the states
+        //-- get all the states
         $states = array();
         foreach ($config->states as $stateConfig) {
             $state = $stateFactory->createState($machine, $stateConfig);
@@ -49,7 +51,7 @@ class Machine
             $states[$stateConfig->name] = $state;
         }
 
-        // get all the transitions and add to their state
+        //-- get all the transitions and add to their state
         foreach ($config->transitions as $transConfig) {
             $transition =
                 $transFactory->createTransition(
@@ -72,15 +74,28 @@ class Machine
             $states[$transConfig->state]->addTransition($transition);
         }
 
-        // get all the elements and add to the machine and their state
+        //-- get all the elements and add to the machine and their state
         foreach ($config->elements as $elementConfig) {
-            $element = $elementsFactory->createElement($elementConfig);
+            $element = $elementFactory->createElement($elementConfig);
+
+            // get and add validators
+            foreach ($elementConfig->validators as $validatorConfig) {
+                $element->addValidator($validatorFactory->createValidator($validatorConfig));
+            }
 
             $machine->addElement($element);
             $states[$elementConfig->state]->addElement($element);
         }
 
-        // add the states to the machine
+        //-- get all the roles and add to the machine and their state
+        foreach ($config->roles as $roleConfig) {
+            $role = $roleFactory->createRole($roleConfig);
+
+            $machine->addRole($role);
+            $states[$roleConfig->state]->addRole($role);
+        }
+
+        //-- add the states to the machine
         foreach ($states as $state) {
             $machine->addState($state);
         }

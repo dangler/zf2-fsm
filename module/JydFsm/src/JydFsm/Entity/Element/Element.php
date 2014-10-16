@@ -46,7 +46,7 @@ abstract class Element
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JydFsm\Entity\State", inversedBy="elements")
+     * @ORM\ManyToOne(targetEntity="JydFsm\Entity\Machine", inversedBy="elements")
      *
      * @var Machine
      */
@@ -96,19 +96,12 @@ abstract class Element
         $this->validators->add($validator);
     }
 
-    public function validate()
+    public function getValidators()
     {
-        $result = $this->checkValidators();
-
-        if ($result !== true) {
-            return $result;
-        }
+        return $this->validators;
     }
 
-    /**
-     *
-     */
-    public function checkValidators()
+    public function getValidationResults()
     {
         // collect all validator results
         $validatorResults = $this->validators->map(
@@ -118,6 +111,13 @@ abstract class Element
             }
         );
 
+        return $validatorResults;
+    }
+
+    public function isValid()
+    {
+        $validatorResults = $this->getValidationResults();
+
         // predicate function for - if validatorResults is not empty, check if any validators failed
         $validatorResultPredicate = function($key, $validatorResult) {
             /** @var Result $validatorResult */
@@ -126,9 +126,9 @@ abstract class Element
             }
         };
 
-        // if any validators failed then return
+        // if any validators failed then return results else return true
         if (!$validatorResults->forAll($validatorResultPredicate)) {
-            return $validatorResults;
+            return false;
         } else {
             return true;
         }

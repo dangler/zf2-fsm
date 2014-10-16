@@ -4,6 +4,7 @@ namespace spec\JydFsm\Entity;
 
 use JydFsm\Entity\Element\Element;
 use JydFsm\Entity\State;
+use JydFsm\Entity\Role;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -47,6 +48,21 @@ class MachineSpec extends ObjectBehavior
         $this->addElement($element);
 
         $this->getElements()->shouldHaveCount(2);
+    }
+
+    function it_can_return_roles(Role $role)
+    {
+        $this->getRoles()->shouldHaveCount(0);
+
+        $this->addRole($role);
+
+        $this->getRoles()->shouldHaveCount(1);
+
+        $this->addRole($role);
+
+        $this->getRoles()->shouldHaveCount(2);
+
+        $this->addRole($role);
     }
 
     function it_can_return_state_for_given_state_name(State $s1, State $s2, State $s3)

@@ -45,11 +45,18 @@ class Role
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="state")
+     * @ORM\ManyToMany(targetEntity="State", mappedBy="state")
      *
      * @var State
      */
     private $states;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Machine", inversedBy="roles")
+     *
+     * @var Machine
+     */
+    private $machine;
 
     /**
      * @return string

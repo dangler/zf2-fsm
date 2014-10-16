@@ -49,11 +49,11 @@ class State
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="states")
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="states")
      *
      * @var Role
      */
-    private $role;
+    private $roles;
 
     /**
      * @ORM\OneToMany(targetEntity="JydFsm\Entity\Element\Element", mappedBy="state")
@@ -105,6 +105,7 @@ class State
         $this->onEntryActions = new ArrayCollection();
         $this->onExitActions = new ArrayCollection();
         $this->elements = new ArrayCollection();
+        $this->roles = new ArrayCollection();
         $this->machine = $machine;
     }
 
@@ -239,12 +240,22 @@ class State
         $this->elements->add($element);
     }
 
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
     /**
      * @return bool
      */
-    public function hadRole()
+    public function hasRoles()
     {
-        return isset($this->role);
+        return !$this->roles->isEmpty();
     }
 
     /**
@@ -286,13 +297,6 @@ class State
     {
         $this->description = $description;
     }
-    /**
-     * @param Role $role
-     */
-    public function setRole(Role $role)
-    {
-        $this->role = $role;
-    }
 
     /**
      * @return Transition
@@ -310,5 +314,19 @@ class State
         }
 
         return $this->transitions->get($this->defaultTransitionKey);
+    }
+
+    public function validateElements()
+    {
+        // assume it's valid
+        $valid = true;
+
+        foreach ($this->elements as $element) {
+            if (!$element->isValid()) {
+                $valid = false;
+            }
+        }
+
+        return $valid;
     }
 }

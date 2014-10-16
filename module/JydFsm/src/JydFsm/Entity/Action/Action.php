@@ -22,7 +22,7 @@ use JydFsm\Entity\State;
  * @ORM\Table(name="action")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="descr", type="string")
- * @ORM\DiscriminatorMap({"dummy"="DummyAction", "email"="EmailAction"})
+ * @ORM\DiscriminatorMap({"dummy"="DummyAction"})
  */
 abstract class Action
 {

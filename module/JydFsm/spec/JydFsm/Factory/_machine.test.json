@@ -40,12 +40,22 @@
         {
             "name" : "Element 0",
             "type" : "dummy",
-            "state" : "State 0"
+            "state" : "State 0",
+            "validators" : [
+                {
+                    "name" : "Validator 0",
+                    "type" : "dummy",
+                    "description" : "Validator 0 desc"
+                }
+            ]
         },
         {
             "name" : "Element 1",
             "type" : "dummy",
-            "state" : "State 1"
+            "state" : "State 1",
+            "validators" : [
+
+            ]
         }
     ],
 
@@ -77,6 +87,24 @@
             "guards" : [
 
             ]
+        }
+    ],
+
+    "roles" : [
+        {
+            "name" : "Role 0",
+            "description" : "Role 0 desc",
+            "state" : "State 0"
+        },
+        {
+            "name" : "Role 1",
+            "description" : "Role 1 desc",
+            "state" : "State 1"
+        },
+        {
+            "name" : "Role 2",
+            "description" : "Role 2 desc",
+            "state" : "State 2"
         }
     ]
 

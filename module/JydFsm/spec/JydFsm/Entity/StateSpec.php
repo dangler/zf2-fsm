@@ -52,9 +52,9 @@ class StateSpec extends ObjectBehavior
 
     function it_must_have_a_role_assigned(Role $role)
     {
-        $this->setRole($role);
+        $this->addRole($role);
 
-        $this->hadRole()->shouldReturn(true);
+        $this->hasRoles()->shouldReturn(true);
     }
 
     function it_can_return_transition_for_given_transition_name(Transition $t1, Transition $t2, Transition $t3)
@@ -97,5 +97,16 @@ class StateSpec extends ObjectBehavior
         $this->addElement($element);
 
         $this->hasElements()->shouldReturn(true);
+    }
+
+    function it_can_validate_elements(Element $e1, Element $e2)
+    {
+        $this->addElement($e1);
+        $this->addElement($e2);
+
+        $e1->isValid()->shouldBeCalled();
+        $e2->isValid()->shouldBeCalled();
+
+        $this->validateElements();
     }
 }

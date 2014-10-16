@@ -32,11 +32,18 @@ class Machine
     private $states;
 
     /**
-     * @ORM\OneToMany(targetEntity="Element", mappedBy="machine")
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Element\Element", mappedBy="machine")
      *
      * @var ArrayCollection
      */
     private $elements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="JydFsm\Entity\Role", mappedBy="machine")
+     *
+     * @var ArrayCollection
+     */
+    private $roles;
 
     /**
      * @ORM\Column(type="integer")
@@ -57,6 +64,7 @@ class Machine
     {
         $this->states = new ArrayCollection();
         $this->elements = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function addState(State $state, $isCurrent = false)
@@ -132,5 +140,15 @@ class Machine
         }
 
         throw new \Exception("Element with name $elementName was not found");
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
     }
 }
