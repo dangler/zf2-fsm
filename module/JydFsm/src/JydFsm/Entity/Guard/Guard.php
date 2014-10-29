@@ -89,6 +89,11 @@ abstract class Guard
         $this->name = $name;
     }
 
+    public function setTransition(Transition $transition)
+    {
+        $this->transition = $transition;
+    }
+
     /**
      * @return Transition
      */

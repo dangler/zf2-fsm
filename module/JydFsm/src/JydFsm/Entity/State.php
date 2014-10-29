@@ -329,4 +329,9 @@ class State
 
         return $valid;
     }
+
+    public function getElements()
+    {
+        return $this->elements;
+    }
 }

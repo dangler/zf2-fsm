@@ -99,6 +99,13 @@ class StateSpec extends ObjectBehavior
         $this->hasElements()->shouldReturn(true);
     }
 
+    function it_can_return_elements(Element $element)
+    {
+        $this->addElement($element);
+
+        $this->getElements()->shouldHaveCount(1);
+    }
+
     function it_can_validate_elements(Element $e1, Element $e2)
     {
         $this->addElement($e1);

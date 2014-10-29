@@ -39,6 +39,13 @@ class Machine
     private $elements;
 
     /**
+     * @ORM\OneToMany(targetEntity="Transition", mappedBy="machine")
+     *
+     * @var ArrayCollection
+     */
+    private $transitions;
+
+    /**
      * @ORM\OneToMany(targetEntity="JydFsm\Entity\Role", mappedBy="machine")
      *
      * @var ArrayCollection
@@ -64,6 +71,7 @@ class Machine
     {
         $this->states = new ArrayCollection();
         $this->elements = new ArrayCollection();
+        $this->transitions = new ArrayCollection();
         $this->roles = new ArrayCollection();
     }
 
