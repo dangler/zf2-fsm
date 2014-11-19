@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DummyGuard extends Guard
 {
+
+    static private $type = 'dummy';
+
     /**
      * {@inheritdoc}
      * This concrete guard does not perform any check, it only returns true result

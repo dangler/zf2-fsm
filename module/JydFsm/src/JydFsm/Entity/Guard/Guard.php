@@ -15,7 +15,7 @@ use JydFsm\Entity\Transition;
  * @ORM\Table(name="guard")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="descr", type="string")
- * @ORM\DiscriminatorMap({"dummy"="DummyGuard"})
+ * @ORM\DiscriminatorMap({"dummy"="DummyGuard", "elements-valid"="ElementsValidGuard"})
  */
 abstract class Guard
 {
@@ -48,6 +48,8 @@ abstract class Guard
      * @var Transition
      */
     private $transition;
+
+    static private $type = '';
 
     /**
      * @return string
@@ -108,4 +110,9 @@ abstract class Guard
      * @return Result
      */
     abstract public function check();
+
+    public function getType()
+    {
+        return static::type;
+    }
 }

@@ -59,6 +59,8 @@ abstract class Element
      */
     private $validators;
 
+    static private $type = '';
+
     public function __construct()
     {
         $this->validators = new ArrayCollection();
@@ -132,5 +134,10 @@ abstract class Element
         } else {
             return true;
         }
+    }
+
+    public function getType()
+    {
+        return static::type;
     }
 }

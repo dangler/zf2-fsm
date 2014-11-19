@@ -13,5 +13,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DummyElement extends Element
 {
-
+    static protected $type = 'dummy';
 }
