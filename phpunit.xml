@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="fsm">
+            <directory>module/JydFsm/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

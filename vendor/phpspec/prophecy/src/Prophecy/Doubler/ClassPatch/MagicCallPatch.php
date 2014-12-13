@@ -12,12 +12,11 @@
 namespace Prophecy\Doubler\ClassPatch;
 
 use phpDocumentor\Reflection\DocBlock;
-use Prophecy\Doubler\Generator\Node\ArgumentNode;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 
 /**
- * Discover Magical API using @method PHPDoc format.
+ * Discover Magical API using "@method" PHPDoc format.
  *
  * @author Thomas Tourlourat <thomas@tourlourat.com>
  */
@@ -50,10 +49,14 @@ class MagicCallPatch implements ClassPatchInterface
         $tagList = $phpdoc->getTagsByName('method');
 
         foreach($tagList as $tag) {
-            $methodNode = new MethodNode($tag->getMethodName());
-            $methodNode->setStatic($tag->isStatic());
+            $methodName = $tag->getMethodName();
 
-            $node->addMethod($methodNode);
+            if (!$reflectionClass->hasMethod($methodName)) {
+                $methodNode = new MethodNode($tag->getMethodName());
+                $methodNode->setStatic($tag->isStatic());
+
+                $node->addMethod($methodNode);
+            }
         }
     }
 
