@@ -16,6 +16,8 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        $form = $this->getServiceLocator()->get('Application\Form\Login');
+
+        return new ViewModel(array( 'form' => $form ));
     }
 }

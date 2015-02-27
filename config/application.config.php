@@ -10,7 +10,8 @@ return array(
         'Application',
         'DoctrineModule',
         'DoctrineORMModule',
-        'JydFsm'
+        'JydFsm',
+        'TwbBundle'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

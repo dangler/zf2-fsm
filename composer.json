@@ -12,7 +12,8 @@
         "zendframework/zendframework": "2.3.*",
         "zendframework/zftool": "dev-master",
         "doctrine/doctrine-module": "dev-master",
-        "doctrine/doctrine-orm-module": "dev-master"
+        "doctrine/doctrine-orm-module": "dev-master",
+        "neilime/zf2-twb-bundle": "dev-master"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",

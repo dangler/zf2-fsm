@@ -60,6 +60,10 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'invokables' => array(
+            'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService',
+            'Application\Form\Login' => 'Application\Form\Login',
+        ),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -102,6 +106,7 @@ return array(
     'view_helpers' => array(
         'invokables' => array(
             'top_nav' => 'Application\View\Helper\TopNav',
+            'page_header' => 'Application\View\Helper\PageHeader',
         ),
     ),
 );

@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <?php
         /* @var $this Zend_View */
-        echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false);
+        echo $this->headTitle($this->translate('My Application'))->setSeparator(' - ')->setAutoEscape(false);
 
         echo $this->headMeta()
                 ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -29,7 +29,43 @@
 
     </head>
     <body>
-        <?php echo $this->top_nav() ?>
+        <div class="header">
+            <?php
+                $user = $this->identity();
+
+                if ( $user ) {
+                    echo $this->top_nav();
+                }
+            ?>
+
+            <div class="title">
+                <div class="container">
+                    <h1>&nbsp My Application</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <?= $this->page_header(); ?>
+                <?= $this->layout()->content ?>
+            </div>
+        </div>
+
+        <div class="container footer">
+            <p class="muted text-center">
+                Site created and maintained by XXX / &copy; All Rights Reserved
+                <br />
+                Address Here
+            </p>
+        </div>
+
+        <div class="print-footer">
+            <p>
+                Generated on <?=date('l jS \of F Y h:i:s A')  ?>
+            </p>
+        </div>
 
         <?php echo $this->inlineScript() ?>
     </body>

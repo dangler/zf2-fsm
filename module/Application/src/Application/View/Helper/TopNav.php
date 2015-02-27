@@ -2,8 +2,6 @@
 namespace Application\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\Authentication\AuthenticationService;
-use Zend\Mvc\Controller\Plugin\Url;
 
 class TopNav extends AbstractHelper
 {
