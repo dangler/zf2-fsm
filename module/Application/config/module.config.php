@@ -99,4 +99,9 @@ return array(
             ),
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'top_nav' => 'Application\View\Helper\TopNav',
+        ),
+    ),
 );

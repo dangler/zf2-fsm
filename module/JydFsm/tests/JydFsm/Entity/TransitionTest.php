@@ -1,4 +1,5 @@
 <?php
+
 class TransitionTest extends PHPUnit_Framework_TestCase
 {
     /** @var \JydFsm\Entity\Transition */
@@ -14,20 +15,17 @@ class TransitionTest extends PHPUnit_Framework_TestCase
     {
         // create stubs for the dependencies
         $this->machine = $this->getMockBuilder('\JydFsm\Entity\Machine')
-            ->setMethods(array('setCurrentState'))
             ->getMock();
         $this->state = $this->getMockBuilder('\JydFsm\Entity\State')
-            ->setMethods(array('invokeOnExitActions'))
             ->setConstructorArgs(array($this->machine))
             ->getMock();
         $this->target = $this->getMockBuilder('\JydFsm\Entity\State')
-            ->setMethods(array('invokeOnEntryActions'))
             ->setConstructorArgs(array($this->machine))
             ->getMock();
-
         $this->guard = $this->getMockBuilder('\JydFsm\Entity\Guard\Guard')
             ->getMock();
 
+        // create unit under testing
         $this->transition = new \JydFsm\Entity\Transition($this->machine, $this->state, $this->target);
     }
 
